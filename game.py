@@ -1,6 +1,7 @@
 import pygame, sys, os
 from utils import *
 from player import Player
+from death_ani import Death
 
 pygame.init()
 WIDTH, HEIGHT = 918, 476
@@ -27,6 +28,7 @@ class Game:
         self.game_over = False
         self.status = ''
         self.level_end = 0
+        self.death_ani = pygame.sprite.GroupSingle()
         self.load_map()
 
     def read_file(self, path):
@@ -80,6 +82,7 @@ class Game:
 
     def check_game_over(self):
         if self.game_over:
+            self.death_ani.add(Death(self.camera.apply(self.player.sprite.rect).center))
             self.player.sprite.kill()
 
     def update(self):
@@ -91,6 +94,7 @@ class Game:
             self.update_status()
             self.check_game_over()
         self.player.update()
+        self.death_ani.update()
 
     def draw(self, surface):
         player = self.player.sprite
@@ -98,6 +102,7 @@ class Game:
             surface.blit(block.image, self.camera.apply(block.rect))
         if player:
             surface.blit(player.image, self.camera.apply(player.rect))
+        self.death_ani.draw(surface)
         draw_center_text(surface, self.status, (WIDTH//2, HEIGHT//2), 20, 'black')
 
 def draw_grid(surface):
@@ -114,7 +119,7 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        if game.game_over:
+        if game.game_over and game.death_ani.sprite is None:
             game = Game('map.txt')
         screen.fill('lightblue')
         game.update()
