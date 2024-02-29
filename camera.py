@@ -1,5 +1,5 @@
 import pygame, sys
-from game import WIDTH, HEIGHT, TILE_SIZE
+from game import WIDTH, HEIGHT, TILE_SIZE, Game
 
 pygame.init()
 FPS = 60
@@ -36,6 +36,23 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += 6
         if keys[pygame.K_w]:
             self.rect.y -= 6
+
+class GameCamera(Game):
+    def __init__(self):
+        super().__init__("map.txt")
+        self.player = pygame.sprite.GroupSingle(Player((WIDTH//2, HEIGHT//2)))
+        self.map_width = len(self.map[0])*TILE_SIZE
+        self.map_height = len(self.map)*TILE_SIZE
+        self.camera = Camera(self.map_width, self.map_height)
+    
+    def update(self):
+        self.player.update()
+        self.camera.update(self.player.sprite.rect)
+    
+    def draw(self, surface):
+        for block in self.blocks:
+            surface.blit(block.image, self.camera.apply(block.rect))
+        surface.blit(self.player.sprite.image, self.camera.apply(self.player.sprite.rect))
 
 if __name__ == '__main__':        
     while True:
