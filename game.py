@@ -17,6 +17,22 @@ blocks = pygame.sprite.Group()
 blocks.add(Block((0,0), 34, 34, os.path.join('imgs', 'block.png')))
 blocks.add(Block((34,0), 34, 34, os.path.join('imgs', 'block.png')))
 
+class Game:
+    def __init__(self, map_path):
+        self.map = self.read_file(map_path)
+
+    def read_file(self, path):
+        file = ''
+        with open(path, 'r') as f:
+            file = f.read().splitlines()
+        return file
+    
+    def load_map(self):
+        for row in self.map:
+            for char in row:
+                if char == 'B':
+                    
+    
 def draw_grid(surface):
     for y in range(34, WIDTH, 34):
         pygame.draw.line(surface, 'red', (y, 0), (y, HEIGHT))
