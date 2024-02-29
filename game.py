@@ -75,7 +75,10 @@ class Game:
                 self.game_over = True
                 player.hit_rect.right = block.rect.left
                 player.pos.x = player.hit_rect.x
-                
+
+        if pygame.sprite.spritecollide(player, self.spikes, False, pygame.sprite.collide_mask):                
+            self.game_over = True
+            
     def vertical_movement(self):
         player = self.player.sprite
         player.apply_gravity()
