@@ -19,6 +19,12 @@ class Block(pygame.sprite.Sprite):
         self.image = load_image(img_path, (width, height))
         self.rect = self.image.get_rect(topleft = pos)
 
+class Spike(Block):
+    def __init__(self, pos, width, height, img_path, rotate=False):
+        super().__init__(pos, width, height, img_path)        
+        if rotate:
+            self.image = pygame.transform.rotate(self.image, 180)
+
 class Game:
     def __init__(self, map_path):
         from camera import Camera
@@ -33,6 +39,7 @@ class Game:
         self.level_end = 0
         self.death_ani = pygame.sprite.GroupSingle()
         self.particles = pygame.sprite.Group()
+        self.spikes = pygame.sprite.Group()
         self.load_map()
 
     def read_file(self, path):
@@ -48,6 +55,10 @@ class Game:
                     self.blocks.add(Block((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'block.png')))
                 elif char == 'P':
                     self.player.add(Player((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'player.png')))
+                elif char == 'S':
+                    self.spikes.add(Spike((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'spike.png')))
+                elif char == 'R':
+                    self.spikes.add(Spike((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'spike.png'), True))
                 elif char == 'W':
                     self.level_end = x*TILE_SIZE
 
@@ -108,6 +119,8 @@ class Game:
         self.particles.draw(surface)
         for block in self.blocks:
             surface.blit(block.image, self.camera.apply(block.rect))
+        for spike in self.spikes:
+            surface.blit(spike.image, self.camera.apply(spike.rect))
         if player:
             surface.blit(player.image, self.camera.apply(player.rect))
         self.death_ani.draw(surface)
