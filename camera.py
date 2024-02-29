@@ -18,6 +18,10 @@ class Camera:
     def update(self, target_rect):
         x = -target_rect.centerx + WIDTH//2
         y = -target_rect.centery + HEIGHT//2
+        x = min(x, 0)
+        x = max(x, WIDTH-self.width)    
+        y = min(y, 0)
+        y = max(y, HEIGHT-self.height)    
         self.rect = pygame.Rect(x, y, self.width, self.height)
 
 class Player(pygame.sprite.Sprite):
