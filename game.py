@@ -48,6 +48,12 @@ class Game:
     def vertical_movement(self):
         player = self.player.sprite
         player.apply_gravity()
+        for block in self.blocks:
+            if block.rect.colliderect(player.rect):
+                if player.direction.y < 0:
+                    player.rect.top = block.rect.bottom
+                    player.pos.y = player.rect.y
+                    player.direction.y = 0
 
     def update(self):
         self.horizontal_movement()
