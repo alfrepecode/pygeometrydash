@@ -1,4 +1,5 @@
 import pygame, sys
+from random import uniform
 
 pygame.init()
 WIDTH, HEIGHT = 918, 476
@@ -28,11 +29,15 @@ class Particle(pygame.sprite.Sprite):
             self.kill()
 
 if __name__ == '__main__':
+    particles = pygame.sprite.Group()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
         screen.fill('lightblue')
+        particles.add(Particle(pygame.mouse.get_pos(), (uniform(-4.5, -0.5), uniform(-0.8, -0.5)), 7, 'white', 0.1))
+        particles.update()
+        particles.draw(screen)
         clock.tick(FPS)
         pygame.display.update()
