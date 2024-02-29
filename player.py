@@ -15,10 +15,12 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = True
         self.angle = 0
         self.copy_img = self.image.copy()
+        offset = 3
+        self.hit_rect = pygame.Rect(self.pos.x+offset, self.pos.y+offset, width-offset, height-offset)
     
     def rotate_img(self):
         self.image = pygame.transform.rotate(self.copy_img, -self.angle)
-        self.rect = self.image.get_rect(center = self.rect.center)
+        self.rect = self.image.get_rect(center = self.hit_rect.center)
     
     def rotate(self):
         self.angle %= 360
@@ -40,7 +42,7 @@ class Player(pygame.sprite.Sprite):
     def apply_gravity(self):
         self.direction.y += self.gravity
         self.pos.y += self.direction.y
-        self.rect.y = self.pos.y
+        self.hit_rect.y = self.pos.y
     
     def update(self):
         self.rotate()

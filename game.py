@@ -43,25 +43,25 @@ class Game:
     def horizontal_movement(self):
         player = self.player.sprite
         player.pos.x += player.direction.x
-        player.rect.x = player.pos.x
+        player.hit_rect.x = player.pos.x
         for block in self.blocks:
-            if block.rect.colliderect(player.rect):
-                player.rect.right = block.rect.left
-                player.pos.x = player.rect.x
+            if block.rect.colliderect(player.hit_rect):
+                player.hit_rect.right = block.rect.left
+                player.pos.x = player.hit_rect.x
                 
     def vertical_movement(self):
         player = self.player.sprite
         player.apply_gravity()
         for block in self.blocks:
-            if block.rect.colliderect(player.rect):
+            if block.rect.colliderect(player.hit_rect):
                 if player.direction.y < 0:
-                    player.rect.top = block.rect.bottom
-                    player.pos.y = player.rect.y
+                    player.hit_rect.top = block.rect.bottom
+                    player.pos.y = player.hit_rect.y
                     player.direction.y = 0
                 if player.direction.y > 0:
                     player.on_ground = True
-                    player.rect.bottom = block.rect.top
-                    player.pos.y = player.rect.y
+                    player.hit_rect.bottom = block.rect.top
+                    player.pos.y = player.hit_rect.y
                     player.direction.y = 0
         
         if player.on_ground and player.direction.y < 0 or player.direction.y > 0:
@@ -77,7 +77,6 @@ class Game:
         for block in self.blocks:
             surface.blit(block.image, self.camera.apply(block.rect))
         surface.blit(self.player.sprite.image, self.camera.apply(self.player.sprite.rect))
-        pygame.draw.rect(surface, 'black', self.camera.apply(self.player.sprite.rect), 2)
 
 def draw_grid(surface):
     for y in range(TILE_SIZE, WIDTH, TILE_SIZE):
