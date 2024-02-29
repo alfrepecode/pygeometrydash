@@ -1,5 +1,5 @@
 import pygame, sys
-from game import WIDTH, HEIGHT
+from game import WIDTH, HEIGHT, TILE_SIZE
 
 pygame.init()
 FPS = 60
@@ -19,6 +19,23 @@ class Camera:
         x = -target_rect.centerx + WIDTH//2
         y = -target_rect.centery + HEIGHT//2
         self.rect = pygame.Rect(x, y, self.width, self.height)
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self, pos):
+        super().__init__()
+        self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
+        self.rect = self.image.get_rect(center = pos)
+    
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_d]:
+            self.rect.x += 6
+        if keys[pygame.K_a]:
+            self.rect.x -= 6
+        if keys[pygame.K_s]:
+            self.rect.y += 6
+        if keys[pygame.K_w]:
+            self.rect.y -= 6
 
 if __name__ == '__main__':        
     while True:
