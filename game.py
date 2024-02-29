@@ -58,7 +58,7 @@ class Game:
                 elif char == 'S':
                     self.spikes.add(Spike((x*TILE_SIZE+2, y*TILE_SIZE+4), TILE_SIZE-4, TILE_SIZE-4, os.path.join('imgs', 'spike.png')))
                 elif char == 'R':
-                    self.spikes.add(Spike((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'spike.png'), True))
+                    self.spikes.add(Spike((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE-4, os.path.join('imgs', 'spike.png'), True))
                 elif char == 'W':
                     self.level_end = x*TILE_SIZE
 
