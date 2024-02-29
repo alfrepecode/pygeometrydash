@@ -25,6 +25,8 @@ class Game:
         self.map_height = len(self.map)*TILE_SIZE
         self.camera = Camera(self.map_width, self.map_height)
         self.game_over = False
+        self.status = ''
+        self.level_end = 0
         self.load_map()
 
     def read_file(self, path):
@@ -40,6 +42,12 @@ class Game:
                     self.blocks.add(Block((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'block.png')))
                 elif char == 'P':
                     self.player.add(Player((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'player.png')))
+                elif char == 'W':
+                    self.level_end = x*TILE_SIZE
+
+    def update_status(self):
+        if self.player.sprite.pos.x >= self.level_end:
+            self.status = 'Level completed'
 
     def horizontal_movement(self):
         player = self.player.sprite
@@ -80,6 +88,7 @@ class Game:
             self.horizontal_movement()
             self.vertical_movement()
             self.camera.update(self.player.sprite.rect)
+            self.update_status()
             self.check_game_over()
         self.player.update()
 
@@ -89,6 +98,7 @@ class Game:
             surface.blit(block.image, self.camera.apply(block.rect))
         if player:
             surface.blit(player.image, self.camera.apply(player.rect))
+        draw_center_text(surface, self.status, (WIDTH//2, HEIGHT//2), 20, 'black')
 
 def draw_grid(surface):
     for y in range(TILE_SIZE, WIDTH, TILE_SIZE):
