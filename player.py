@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.8
         self.pos = vec(pos)
         self.initial_jump = -11
-        self.speed = 5
+        self.speed = 6
         self.on_ground = True
         self.angle = 0
         self.copy_img = self.image.copy()
