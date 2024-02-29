@@ -1,5 +1,6 @@
 import pygame, sys, os
 from utils import *
+from player import Player
 
 pygame.init()
 WIDTH, HEIGHT = 918, 476
@@ -17,6 +18,7 @@ class Block(pygame.sprite.Sprite):
 class Game:
     def __init__(self, map_path):
         self.blocks = pygame.sprite.Group()
+        self.player = pygame.sprite.GroupSingle()
         self.map = self.read_file(map_path)
         self.load_map()
 
@@ -31,9 +33,12 @@ class Game:
             for x, char in enumerate(row):
                 if char == 'B':
                     self.blocks.add(Block((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'block.png')))
+                elif char == 'P':
+                    self.player.add(Player((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'player.png')))
                     
     def draw(self, surface):
         self.blocks.draw(surface)
+        self.player.draw(surface)
 
 def draw_grid(surface):
     for y in range(TILE_SIZE, WIDTH, TILE_SIZE):
@@ -51,6 +56,6 @@ while True:
             sys.exit()
     screen.fill('lightblue')
     game.draw(screen)
-    draw_grid(screen)
+    # draw_grid(screen)
     clock.tick(FPS)
     pygame.display.update()
