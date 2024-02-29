@@ -35,7 +35,18 @@ class Game:
                     self.blocks.add(Block((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'block.png')))
                 elif char == 'P':
                     self.player.add(Player((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'player.png')))
-                    
+
+    def horizontal_movement(self):
+        pass
+
+    def vertical_movement(self):
+        self.player.sprite.apply_gravity()
+
+    def update(self):
+        self.horizontal_movement()
+        self.vertical_movement()
+        self.player.update()
+
     def draw(self, surface):
         self.blocks.draw(surface)
         self.player.draw(surface)
@@ -55,6 +66,7 @@ while True:
             pygame.quit()
             sys.exit()
     screen.fill('lightblue')
+    game.update()
     game.draw(screen)
     # draw_grid(screen)
     clock.tick(FPS)
