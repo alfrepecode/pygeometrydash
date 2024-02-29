@@ -54,6 +54,8 @@ class GameCamera(Game):
             surface.blit(block.image, self.camera.apply(block.rect))
         surface.blit(self.player.sprite.image, self.camera.apply(self.player.sprite.rect))
 
+game = GameCamera()
+
 if __name__ == '__main__':        
     while True:
         for event in pygame.event.get():
@@ -61,5 +63,7 @@ if __name__ == '__main__':
                 pygame.quit()
                 sys.exit()
         screen.fill('lightblue')
+        game.update()
+        game.draw(screen)
         clock.tick(FPS)
         pygame.display.update()
