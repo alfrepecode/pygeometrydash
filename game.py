@@ -2,6 +2,9 @@ import pygame, sys, os
 from utils import *
 from player import Player
 from death_ani import Death
+from particles import Particle
+from random import uniform
+vec = pygame.math.Vector2
 
 pygame.init()
 WIDTH, HEIGHT = 918, 476
@@ -29,6 +32,7 @@ class Game:
         self.status = ''
         self.level_end = 0
         self.death_ani = pygame.sprite.GroupSingle()
+        self.particles = pygame.sprite.Group()
         self.load_map()
 
     def read_file(self, path):
@@ -88,6 +92,8 @@ class Game:
     def update(self):
         player = self.player.sprite
         if player:
+            if player.on_ground:
+                self.particles.add(Particle(self.camera.apply(self.player.sprite.rect).bottomleft+vec(3,-6), (uniform(-4.5, -0.5), uniform(-0.8, -0.5)), 7, 'white', 0.1))
             self.horizontal_movement()
             self.vertical_movement()
             self.camera.update(self.player.sprite.rect)
@@ -95,9 +101,11 @@ class Game:
             self.check_game_over()
         self.player.update()
         self.death_ani.update()
+        self.particles.update()
 
     def draw(self, surface):
         player = self.player.sprite
+        self.particles.draw(surface)
         for block in self.blocks:
             surface.blit(block.image, self.camera.apply(block.rect))
         if player:
