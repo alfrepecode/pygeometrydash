@@ -37,11 +37,17 @@ class Game:
                     self.player.add(Player((x*TILE_SIZE, y*TILE_SIZE), TILE_SIZE, TILE_SIZE, os.path.join('imgs', 'player.png')))
 
     def horizontal_movement(self):
-        self.player.sprite.pos.x += self.player.sprite.direction.x
-        self.player.sprite.rect.x = self.player.sprite.pos.x
-
+        player = self.player.sprite
+        player.pos.x += player.direction.x
+        player.rect.x = player.pos.x
+        for block in self.blocks:
+            if block.rect.colliderect(player.rect):
+                player.rect.right = block.rect.left
+                player.pos.x = player.rect.x
+                
     def vertical_movement(self):
-        self.player.sprite.apply_gravity()
+        player = self.player.sprite
+        player.apply_gravity()
 
     def update(self):
         self.horizontal_movement()
