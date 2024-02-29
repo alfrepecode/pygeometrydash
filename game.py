@@ -59,6 +59,9 @@ class Game:
                     player.rect.bottom = block.rect.top
                     player.pos.y = player.rect.y
                     player.direction.y = 0
+        
+        if player.on_ground and player.direction.y < 0 or player.direction.y > 0:
+            player.on_ground = False
 
     def update(self):
         self.horizontal_movement()
