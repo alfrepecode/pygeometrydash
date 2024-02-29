@@ -17,12 +17,20 @@ blocks = pygame.sprite.Group()
 blocks.add(Block((0,0), 34, 34, os.path.join('imgs', 'block.png')))
 blocks.add(Block((34,0), 34, 34, os.path.join('imgs', 'block.png')))
 
+def draw_grid(surface):
+    for y in range(34, WIDTH, 34):
+        pygame.draw.line(surface, 'red', (y, 0), (y, HEIGHT))
+
+    for x in range(34, HEIGHT, 34):
+        pygame.draw.line(surface, 'blue', (0, x), (WIDTH, x))
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
     screen.fill('lightblue')
+    draw_grid(screen)
     blocks.draw(screen)
     clock.tick(FPS)
     pygame.display.update()
