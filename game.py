@@ -17,9 +17,13 @@ class Block(pygame.sprite.Sprite):
 
 class Game:
     def __init__(self, map_path):
+        from camera import Camera
         self.blocks = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
         self.map = self.read_file(map_path)
+        self.map_width = len(self.map[0])*TILE_SIZE
+        self.map_height = len(self.map)*TILE_SIZE
+        self.camera = Camera(self.map_width, self.map_height)
         self.load_map()
 
     def read_file(self, path):
@@ -67,10 +71,12 @@ class Game:
         self.horizontal_movement()
         self.vertical_movement()
         self.player.update()
+        self.camera.update(self.player.sprite.rect)
 
     def draw(self, surface):
-        self.blocks.draw(surface)
-        self.player.draw(surface)
+        for block in self.blocks:
+            surface.blit(block.image, self.camera.apply(block.rect))
+        surface.blit(self.player.sprite.image, self.camera.apply(self.player.sprite.rect))
 
 def draw_grid(surface):
     for y in range(TILE_SIZE, WIDTH, TILE_SIZE):
