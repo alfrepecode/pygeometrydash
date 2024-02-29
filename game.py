@@ -54,6 +54,10 @@ class Game:
                     player.rect.top = block.rect.bottom
                     player.pos.y = player.rect.y
                     player.direction.y = 0
+                if player.direction.y > 0:
+                    player.rect.bottom = block.rect.top
+                    player.pos.y = player.rect.y
+                    player.direction.y = 0
 
     def update(self):
         self.horizontal_movement()
