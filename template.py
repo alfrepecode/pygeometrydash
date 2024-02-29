@@ -6,11 +6,12 @@ FPS = 60
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    screen.fill('lightblue')
-    clock.tick(FPS)
-    pygame.display.update()
+if __name__ == '__main__':
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.fill('lightblue')
+        clock.tick(FPS)
+        pygame.display.update()

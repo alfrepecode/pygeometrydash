@@ -79,16 +79,16 @@ def draw_grid(surface):
     for x in range(TILE_SIZE, HEIGHT, TILE_SIZE):
         pygame.draw.line(surface, 'blue', (0, x), (WIDTH, x))
 
-game = Game('map.txt')
-
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    screen.fill('lightblue')
-    game.update()
-    game.draw(screen)
-    # draw_grid(screen)
-    clock.tick(FPS)
-    pygame.display.update()
+if __name__ == '__main__':
+    game = Game('map.txt')
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.fill('lightblue')
+        game.update()
+        game.draw(screen)
+        # draw_grid(screen)
+        clock.tick(FPS)
+        pygame.display.update()

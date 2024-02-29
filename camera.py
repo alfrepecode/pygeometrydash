@@ -1,7 +1,7 @@
 import pygame, sys
+from game import WIDTH, HEIGHT
 
 pygame.init()
-WIDTH, HEIGHT = 918, 476
 FPS = 60
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
@@ -19,12 +19,13 @@ class Camera:
         x = -target_rect.centerx + WIDTH//2
         y = -target_rect.centery + HEIGHT//2
         self.rect = pygame.Rect(x, y, self.width, self.height)
-        
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-    screen.fill('lightblue')
-    clock.tick(FPS)
-    pygame.display.update()
+
+if __name__ == '__main__':        
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.fill('lightblue')
+        clock.tick(FPS)
+        pygame.display.update()
