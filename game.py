@@ -77,6 +77,7 @@ class Game:
         for block in self.blocks:
             surface.blit(block.image, self.camera.apply(block.rect))
         surface.blit(self.player.sprite.image, self.camera.apply(self.player.sprite.rect))
+        pygame.draw.rect(surface, 'black', self.camera.apply(self.player.sprite.rect), 2)
 
 def draw_grid(surface):
     for y in range(TILE_SIZE, WIDTH, TILE_SIZE):
