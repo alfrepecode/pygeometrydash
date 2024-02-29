@@ -24,6 +24,7 @@ class Game:
         self.map_width = len(self.map[0])*TILE_SIZE
         self.map_height = len(self.map)*TILE_SIZE
         self.camera = Camera(self.map_width, self.map_height)
+        self.game_over = False
         self.load_map()
 
     def read_file(self, path):
@@ -46,6 +47,7 @@ class Game:
         player.hit_rect.x = player.pos.x
         for block in self.blocks:
             if block.rect.colliderect(player.hit_rect):
+                self.game_over = True
                 player.hit_rect.right = block.rect.left
                 player.pos.x = player.hit_rect.x
                 
@@ -55,6 +57,7 @@ class Game:
         for block in self.blocks:
             if block.rect.colliderect(player.hit_rect):
                 if player.direction.y < 0:
+                    self.game_over = True
                     player.hit_rect.top = block.rect.bottom
                     player.pos.y = player.hit_rect.y
                     player.direction.y = 0
@@ -67,16 +70,25 @@ class Game:
         if player.on_ground and player.direction.y < 0 or player.direction.y > 0:
             player.on_ground = False
 
+    def check_game_over(self):
+        if self.game_over:
+            self.player.sprite.kill()
+
     def update(self):
-        self.horizontal_movement()
-        self.vertical_movement()
+        player = self.player.sprite
+        if player:
+            self.horizontal_movement()
+            self.vertical_movement()
+            self.camera.update(self.player.sprite.rect)
+            self.check_game_over()
         self.player.update()
-        self.camera.update(self.player.sprite.rect)
 
     def draw(self, surface):
+        player = self.player.sprite
         for block in self.blocks:
             surface.blit(block.image, self.camera.apply(block.rect))
-        surface.blit(self.player.sprite.image, self.camera.apply(self.player.sprite.rect))
+        if player:
+            surface.blit(player.image, self.camera.apply(player.rect))
 
 def draw_grid(surface):
     for y in range(TILE_SIZE, WIDTH, TILE_SIZE):
