@@ -104,6 +104,8 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+        if game.game_over:
+            game = Game('map.txt')
         screen.fill('lightblue')
         game.update()
         game.draw(screen)
